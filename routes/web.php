@@ -30,6 +30,18 @@ Route::get('/reports', function () {
     return view('owner.report.index');
 });
 
+Route::get('/promo', function () {
+    return view('owner.promo.index');
+});
+
+Route::get('/reviews', function () {
+    return view('owner.review.index');
+});
+
+Route::get('/profile', function () {
+    return view('owner.profile.index');
+});
+
 Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
 });

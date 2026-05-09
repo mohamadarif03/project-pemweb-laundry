@@ -28,7 +28,7 @@
             </div>
         </div>
         
-        <a href="/owner/orders/create" class="w-full md:w-auto bg-primary text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 hover:bg-secondary transition-all flex items-center justify-center gap-2 group">
+        <a href="/orders/create" class="w-full md:w-auto bg-primary text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 hover:bg-secondary transition-all flex items-center justify-center gap-2 group">
             <span class="material-symbols-outlined text-lg group-hover:rotate-90 transition-transform">add</span>
             Tambah Order
         </a>
@@ -77,14 +77,14 @@
                             </span>
                         </td>
                         <td class="py-4 px-6">
-                            <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <a href="/owner/orders/1" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Order">
+                            <div class="flex justify-end items-center gap-2 transition-opacity">
+                                <a href="/orders/1" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Order">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </a>
                                 <button class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center hover:bg-orange-100 tooltip" title="Update Status">
                                     <span class="material-symbols-outlined text-[18px]">sync</span>
                                 </button>
-                                <a href="/owner/orders/1/edit" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
+                                <a href="/orders/1/edit" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </a>
                                 <button class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 tooltip" title="Print Nota">
@@ -92,7 +92,7 @@
                                 </button>
                             </div>
                             <div class="flex lg:hidden justify-end mt-2">
-                                <a href="/owner/orders/1" class="text-primary text-xs font-semibold">Lihat Detail &rarr;</a>
+                                <a href="/orders/1" class="text-primary text-xs font-semibold">Lihat Detail &rarr;</a>
                             </div>
                         </td>
                     </tr>

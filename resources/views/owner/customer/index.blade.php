@@ -71,7 +71,7 @@
                         <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">24 Order</td>
                         <td class="py-4 px-6 text-slate-500">12 Jan 2024</td>
                         <td class="py-4 px-6">
-                            <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="flex justify-end items-center gap-2 transition-opacity">
                                 <button @click="modalDetail = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Pelanggan">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </button>

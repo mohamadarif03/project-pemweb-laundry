@@ -7,7 +7,7 @@
 <div class="max-w-5xl mx-auto space-y-6 animate-fade-in">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-inverse-surface rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-4">
-            <a href="/owner/orders" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-primary transition-colors">
+            <a href="/orders" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <div>

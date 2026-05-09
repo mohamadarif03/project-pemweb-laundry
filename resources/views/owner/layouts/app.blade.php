@@ -150,66 +150,64 @@
                 LaundroMetrics</h1>
             <p class="font-label-md text-label-md text-on-surface-variant mt-1">Management Portal</p>
         </div>
+        
+@php
+    $navItemClass = "text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1";
+    $navActiveItemClass = "bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-xl flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform duration-200";
+@endphp
         <div class="flex flex-col gap-2">
+
             <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider px-4 mt-2 mb-1">Menu Utama</span>
-            <a class="bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-xl flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform duration-200"
-                href="#">
+            <a class="{{ request()->is('dashboard*') || request()->is('/') ? $navActiveItemClass : $navItemClass }}"
+                href="/dashboard">
                 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                 <span class="font-label-md text-label-md">Dashboard</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
+            <a class="{{ request()->is('orders*') ? $navActiveItemClass : $navItemClass }}"
                 href="/orders">
                 <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
                 <span class="font-label-md text-label-md">Orders</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
+            <a class="{{ request()->is('pickup-delivery*') ? $navActiveItemClass : $navItemClass }}"
                 href="/pickup-delivery">
                 <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
                 <span class="font-label-md text-label-md">Pickup & Delivery</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
-                <span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
-                <span class="font-label-md text-label-md">QR Laundry</span>
-            </a>
+
 
             <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider px-4 mt-4 mb-1">Master Data</span>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
+            <a class="{{ request()->is('customers*') ? $navActiveItemClass : $navItemClass }}"
                 href="/customers">
                 <span class="material-symbols-outlined" data-icon="groups">groups</span>
                 <span class="font-label-md text-label-md">Customers</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
+            <a class="{{ request()->is('services*') ? $navActiveItemClass : $navItemClass }}"
                 href="/services">
                 <span class="material-symbols-outlined" data-icon="category">category</span>
                 <span class="font-label-md text-label-md">Services</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
-                <span class="material-symbols-outlined" data-icon="sell">sell</span>
+            <a class="{{ request()->is('promo*') ? $navActiveItemClass : $navItemClass }}"
+                href="/promo">
+                <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
                 <span class="font-label-md text-label-md">Promo</span>
             </a>
 
             <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider px-4 mt-4 mb-1">Aktivitas & Laporan</span>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
+            <a class="{{ request()->is('reports*') ? $navActiveItemClass : $navItemClass }}"
                 href="/reports">
                 <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
                 <span class="font-label-md text-label-md">Reports</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+            <a class="{{ request()->is('reviews*') ? $navActiveItemClass : $navItemClass }}"
+                href="/reviews">
                 <span class="material-symbols-outlined" data-icon="star_rate">star_rate</span>
                 <span class="font-label-md text-label-md">Review</span>
             </a>
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                <span class="font-label-md text-label-md">Notification</span>
-            </a>
+
         </div>
         <div class="mt-auto flex flex-col gap-2 border-t border-outline-variant/30 pt-stack-md shrink-0">
-            <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+            <a class="{{ request()->is('profile*') ? $navActiveItemClass : $navItemClass }}"
+                href="/profile">
                 <span class="material-symbols-outlined" data-icon="person">person</span>
                 <span class="font-label-md text-label-md">Profile</span>
             </a>

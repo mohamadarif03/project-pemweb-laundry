@@ -63,7 +63,7 @@
                                 </span>
                             </td>
                             <td class="py-4 px-6">
-                                <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="flex justify-end items-center gap-2 transition-opacity">
                                     <button @click="modalPickup = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Pickup">
                                         <span class="material-symbols-outlined text-[18px]">visibility</span>
                                     </button>
@@ -121,7 +121,7 @@
                                 </span>
                             </td>
                             <td class="py-4 px-6">
-                                <div class="flex justify-end items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="flex justify-end items-center gap-2 transition-opacity">
                                     <button @click="modalDelivery = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Delivery">
                                         <span class="material-symbols-outlined text-[18px]">visibility</span>
                                     </button>
