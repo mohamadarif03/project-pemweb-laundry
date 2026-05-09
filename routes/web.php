@@ -10,10 +10,26 @@ Route::get('/dashboard', function () {
     return view('owner.dashboard');
 });
 
-Route::get('/owner/orders', function () {
+Route::get('/orders', function () {
     return view('owner.order.index');
 });
 
-Route::get('/owner/orders/{id}', function ($id) {
+Route::get('/pickup-delivery', function () {
+    return view('owner.logistics.index');
+});
+
+Route::get('/customers', function () {
+    return view('owner.customer.index');
+});
+
+Route::get('/services', function () {
+    return view('owner.service.index');
+});
+
+Route::get('/reports', function () {
+    return view('owner.report.index');
+});
+
+Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
 });

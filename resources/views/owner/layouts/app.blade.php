@@ -158,12 +158,12 @@
                 <span class="font-label-md text-label-md">Dashboard</span>
             </a>
             <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+                href="/orders">
                 <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
                 <span class="font-label-md text-label-md">Orders</span>
             </a>
             <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+                href="/pickup-delivery">
                 <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
                 <span class="font-label-md text-label-md">Pickup & Delivery</span>
             </a>
@@ -175,12 +175,12 @@
 
             <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider px-4 mt-4 mb-1">Master Data</span>
             <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+                href="/customers">
                 <span class="material-symbols-outlined" data-icon="groups">groups</span>
                 <span class="font-label-md text-label-md">Customers</span>
             </a>
             <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+                href="/services">
                 <span class="material-symbols-outlined" data-icon="category">category</span>
                 <span class="font-label-md text-label-md">Services</span>
             </a>
@@ -192,7 +192,7 @@
 
             <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider px-4 mt-4 mb-1">Aktivitas & Laporan</span>
             <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-inverse-surface rounded-xl transition-all duration-200 flex items-center gap-3 px-4 py-3 hover:translate-x-1"
-                href="#">
+                href="/reports">
                 <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
                 <span class="font-label-md text-label-md">Reports</span>
             </a>
