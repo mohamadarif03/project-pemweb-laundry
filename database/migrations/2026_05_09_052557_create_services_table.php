@@ -14,7 +14,7 @@ return new class extends Migration
             $table->decimal('price_per_kg', 10, 2);
             $table->integer('estimated_days');
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('is_active');
             $table->timestamps();
         });
     }

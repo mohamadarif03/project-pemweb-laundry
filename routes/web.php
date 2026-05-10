@@ -30,9 +30,9 @@ Route::get('/customers/{id}/edit', function ($id) {
     return view('owner.customer.update');
 });
 
-Route::get('/services', function () {
-    return view('owner.service.index');
-});
+// Route::get('/services', function () {
+//     return view('owner.service.index');
+// });
 
 Route::get('/reports', function () {
     return view('owner.report.index');
@@ -61,3 +61,6 @@ Route::get('/orders/{id}/edit', function ($id) {
 Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
 });
+
+
+Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
