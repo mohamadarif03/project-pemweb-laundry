@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('payment_method', ['cod', 'transfer', 'qris', 'ewallet']);
             $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
             $table->enum('laundry_status', ['order_masuk', 'menunggu_pickup', 'sedang_dicuci', 'sedang_dikeringkan', 'sedang_disetrika', 'siap_diantar', 'selesai', 'dibatalkan'])->default('order_masuk');
+            $table->enum('service_order', ['pickup', 'delivery'])->default('pickup');
             $table->dateTime('pickup_date')->nullable();
             $table->dateTime('estimated_finish_date')->nullable();
             $table->text('notes')->nullable();

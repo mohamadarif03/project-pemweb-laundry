@@ -22,6 +22,14 @@ Route::get('/customers', function () {
     return view('owner.customer.index');
 });
 
+Route::get('/customers/create', function () {
+    return view('owner.customer.create');
+});
+
+Route::get('/customers/{id}/edit', function ($id) {
+    return view('owner.customer.update');
+});
+
 Route::get('/services', function () {
     return view('owner.service.index');
 });
@@ -40,6 +48,14 @@ Route::get('/reviews', function () {
 
 Route::get('/profile', function () {
     return view('owner.profile.index');
+});
+
+Route::get('/orders/create', function () {
+    return view('owner.order.create');
+});
+
+Route::get('/orders/{id}/edit', function ($id) {
+    return view('owner.order.update');
 });
 
 Route::get('/orders/{id}', function ($id) {
