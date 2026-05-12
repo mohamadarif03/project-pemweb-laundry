@@ -4,7 +4,7 @@
 @section('header_title', 'Daftar Promo & Voucher')
 
 @section('content')
-<div class="max-w-container-max mx-auto space-y-6 animate-fade-in" x-data="{ modalPromo: false }">
+<div class="max-w-container-max mx-auto space-y-6 animate-fade-in" x-data="{ modalPromo: false, search: '' }">
     
     <!-- Top Action Bar -->
     <div class="bg-white dark:bg-inverse-surface rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -13,7 +13,7 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="material-symbols-outlined text-slate-400 text-lg">search</span>
                 </div>
-                <input type="text" placeholder="Cari kode atau nama promo..." class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary">
+                <input x-model="search" type="text" placeholder="Cari kode atau nama promo..." class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary">
             </div>
             <div class="relative w-full sm:w-48">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -50,7 +50,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                     <!-- Row 1 -->
-                    <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
                         <td class="py-4 px-6">
                             <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">WELCOME10</span>
                         </td>
@@ -86,7 +86,7 @@
                     </tr>
                     
                     <!-- Row 2 -->
-                    <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
+                   <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
                         <td class="py-4 px-6">
                             <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">LAUNDRY5K</span>
                         </td>
@@ -122,7 +122,7 @@
                     </tr>
 
                      <!-- Row 3 -->
-                     <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
+                     <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
                         <td class="py-4 px-6">
                             <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">EXPRESS20</span>
                         </td>
