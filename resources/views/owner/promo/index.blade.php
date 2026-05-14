@@ -10,31 +10,31 @@
     </div>
 @endif
 
-<form action="{{ route('promo.store') }}" method="POST">
-    
+
 <div class="max-w-container-max mx-auto space-y-6 animate-fade-in" x-data="{ modalPromo: false, search: '' }">
     
     <!-- Top Action Bar -->
     <div class="bg-white dark:bg-inverse-surface rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+        <form method="GET" action="{{ route('promo.index') }}" class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div class="relative w-full sm:w-64">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="material-symbols-outlined text-slate-400 text-lg">search</span>
                 </div>
-                <input x-model="search" type="text" placeholder="Cari kode atau nama promo..." class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary">
+                <input x-model="search" type="text" placeholder="Cari kode promo..." class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary">
             </div>
             <div class="relative w-full sm:w-48">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="material-symbols-outlined text-slate-400 text-lg">filter_list</span>
                 </div>
-                <select class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary appearance-none">
+                <select name="status" onchange="this.form.submit()" class="pl-10 w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 text-sm focus:ring-primary focus:border-primary appearance-none">
                     <option value="">Semua Status</option>
-                    <option value="active">Active</option>
-                    <option value="expired">Expired</option>
-                    <option value="nonaktif">Nonaktif</option>
+                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                    <option value="nonaktif" {{ request('status') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                 </select>
             </div>
-        </div>
+            <button type="submit" class="hidden">Filter</button>
+        </form>
         
         <button @click="modalPromo = true" class="w-full md:w-auto bg-primary text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 hover:bg-secondary transition-all flex items-center justify-center gap-2 group">
             <span class="material-symbols-outlined text-lg group-hover:rotate-90 transition-transform">sell</span>
@@ -57,23 +57,40 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                    <!-- Row 1 -->
+                    @foreach ($promos as $promo)
                     <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
                         <td class="py-4 px-6">
-                            <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">WELCOME10</span>
+                            <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">{{ $promo->code }}</span>
                         </td>
                         <td class="py-4 px-6">
-                            <div class="font-bold text-slate-900 dark:text-white">Diskon Member Baru</div>
+                            <div class="font-bold text-slate-900 dark:text-white">{{ $promo->code }}</div>
                         </td>
                         <td class="py-4 px-6">
-                            <span class="font-extrabold text-orange-600 bg-orange-50 px-2 py-0.5 rounded text-sm">10%</span>
-                        </td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-400 font-medium">30 Mei 2026</td>
-                        <td class="py-4 px-6">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 font-bold text-xs uppercase tracking-wide">
-                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                                Active
+                            <span class="font-extrabold text-orange-600 bg-orange-50 px-2 py-0.5 rounded text-sm">
+                                {{ $promo->discount_type == 'percent' ? $promo->discount_value . '%' : 'Rp' . number_format($promo->discount_value, 0, ',', '.') }}
                             </span>
+                        </td>
+                        <td class="py-4 px-6 text-slate-600 dark:text-slate-400 font-medium">{{ \Carbon\Carbon::parse($promo->end_date)->format('d M Y') }}</td>
+                        <td class="py-4 px-6">
+                            @php
+                                $isExpired = \Carbon\Carbon::parse($promo->end_date)->startOfDay()->lt(now()->startOfDay());
+                            @endphp
+                            @if($isExpired)
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 font-bold text-xs uppercase tracking-wide">
+                                    <span class="material-symbols-outlined text-[14px]">cancel</span>
+                                    Expired
+                                </span>
+                            @elseif(!$promo->is_active)
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-surface-dim/50 text-slate-600 dark:text-slate-400 font-bold text-xs uppercase tracking-wide">
+                                    <span class="material-symbols-outlined text-[14px]">remove_circle</span>
+                                    Nonaktif
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 font-bold text-xs uppercase tracking-wide">
+                                    <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    Active
+                                </span>
+                            @endif
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex justify-end items-center gap-2 transition-opacity">
@@ -83,84 +100,24 @@
                                 <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center hover:bg-orange-100 tooltip" title="Nonaktifkan">
-                                    <span class="material-symbols-outlined text-[18px]">block</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>
-                                </button>
+                                <form action="{{ route('promo.toggle-status', $promo->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center hover:bg-orange-100 tooltip" title="Ubah Status">
+                                        <span class="material-symbols-outlined text-[18px]">block</span>
+                                    </button>
+                                </form>
+                                <form action="{{ route('promo.destroy', $promo->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus" onclick="return confirm('Yakin ingin menghapus promo ini?')">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
-                    
-                    <!-- Row 2 -->
-                   <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
-                        <td class="py-4 px-6">
-                            <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">LAUNDRY5K</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="font-bold text-slate-900 dark:text-white">Promo Akhir Pekan</div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <span class="font-extrabold text-orange-600 bg-orange-50 px-2 py-0.5 rounded text-sm">Rp5.000</span>
-                        </td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-400 font-medium">15 Mei 2026</td>
-                        <td class="py-4 px-6">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-surface-dim/50 text-slate-600 dark:text-slate-400 font-bold text-xs uppercase tracking-wide">
-                                <span class="material-symbols-outlined text-[14px]">remove_circle</span>
-                                Nonaktif
-                            </span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex justify-end items-center gap-2 transition-opacity">
-                                <button class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail">
-                                    <span class="material-symbols-outlined text-[18px]">visibility</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-100 tooltip" title="Aktifkan">
-                                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                     <!-- Row 3 -->
-                     <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
-                        <td class="py-4 px-6">
-                            <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">EXPRESS20</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="font-bold text-slate-900 dark:text-white">Diskon Express</div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <span class="font-extrabold text-orange-600 bg-orange-50 px-2 py-0.5 rounded text-sm">20%</span>
-                        </td>
-                        <td class="py-4 px-6 text-slate-600 dark:text-slate-400 font-medium">01 Mei 2026</td>
-                        <td class="py-4 px-6">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 font-bold text-xs uppercase tracking-wide">
-                                <span class="material-symbols-outlined text-[14px]">cancel</span>
-                                Expired
-                            </span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex justify-end items-center gap-2 transition-opacity">
-                                <button class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail">
-                                    <span class="material-symbols-outlined text-[18px]">visibility</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>
-                                </button>
-                                <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -39,9 +39,7 @@ Route::get('/reports', function () {
     return view('owner.report.index');
 });
 
-Route::get('/promo', function () {
-    return view('owner.promo.index');
-});
+Route::get('/promo', [\App\Http\Controllers\PromoController::class, 'index'])->name('promo.index');
 
 Route::get('/reviews', function () {
     return view('owner.review.index');
@@ -72,3 +70,5 @@ Route::delete('/services/delete/{id}', [ServiceController::class, 'destroy'])->n
 Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
 
 Route::post('/promo/store', [App\Http\Controllers\PromoController::class, 'store'])->name('promo.store');
+Route::delete('/promo/{id}', [App\Http\Controllers\PromoController::class, 'destroy'])->name('promo.destroy');
+Route::patch('/promo/{id}/toggle-status', [App\Http\Controllers\PromoController::class, 'toggleStatus'])->name('promo.toggle-status');

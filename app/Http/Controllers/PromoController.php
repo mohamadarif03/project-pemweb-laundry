@@ -7,10 +7,27 @@ use App\Models\Voucher;
 
 class PromoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Tetap arahkan ke folder yang benar
-        return view('owner.promo.index');
+        $query = Voucher::query();
+
+        if ($request->search) {
+            $query->where('code', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->status) {
+            if ($request->status == 'active') {
+                $query->where('is_active', true)->whereDate('end_date', '>=', now()->toDateString());
+            } elseif ($request->status == 'nonaktif') {
+                $query->where('is_active', false)->whereDate('end_date', '>=', now()->toDateString());
+            } elseif ($request->status == 'expired') {
+                $query->whereDate('end_date', '<', now()->toDateString());
+            }
+        }
+
+        $promos = $query->latest()->get();
+
+        return view('owner.promo.index', compact('promos'));
     }
 
     public function store(Request $request)
@@ -45,9 +62,15 @@ class PromoController extends Controller
     public function toggleStatus($id)
     {
         $promo = Voucher::findOrFail($id);
-        $promo->status = ($promo->status == 'active') ? 'nonaktif' : 'active';
+        $promo->is_active = !$promo->is_active;
         $promo->save();
 
         return back();
+    }
+
+    public function destroy($id)
+    {
+        Voucher::findOrFail($id)->delete();
+        return back()->with('success', 'Promo berhasil dihapus!');
     }
 }
