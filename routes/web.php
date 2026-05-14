@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,6 +63,11 @@ Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
 });
 
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+
+Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
+
+Route::delete('/services/delete/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
 Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
 

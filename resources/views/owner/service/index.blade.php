@@ -28,6 +28,37 @@
             </button>
         </div>
 
+        <form method="GET" action="{{ route('services.index') }}"
+            class="flex gap-3">
+
+            <input type="text"
+                name="search"
+                placeholder="Cari layanan..."
+                value="{{ request('search') }}"
+                class="border rounded-xl px-4 py-2">
+
+            <select name="status"
+                class="border rounded-xl px-4 py-2">
+
+                <option value="">Semua Status</option>
+
+                <option value="1"
+                    {{ request('status') == '1' ? 'selected' : '' }}>
+                    Aktif
+                </option>
+
+                <option value="0"
+                    {{ request('status') == '0' ? 'selected' : '' }}>
+                    Nonaktif
+                </option>
+            </select>
+
+            <button type="submit"
+                class="bg-primary text-white px-4 rounded-xl">
+                Filter
+            </button>
+        </form>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Service Card 1 -->
             <div

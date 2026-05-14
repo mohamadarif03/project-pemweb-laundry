@@ -11,10 +11,21 @@ class ServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-         return view('owner.service.index');
+        $query = Service::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->status != '') {
+            $query->where('is_active', $request->status);
+        }
+
+        $services = $query->latest()->get();
+
+        return view('owner.services.index', compact('services'));
     }
 
     /**
@@ -64,6 +75,8 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Service::findOrFail($id)->delete();
+
+        return back()->with('success', 'Layanan berhasil dihapus');
     }
 }
