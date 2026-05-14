@@ -116,60 +116,62 @@
                 </div>
 
                 <!-- MODAL: EDIT LAYANAN -->
-                <div x-show="modalEdit" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center">
-                    <div x-show="modalEdit" x-transition.opacity class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" @click="modalEdit = false"></div>
-                    <div x-show="modalEdit" x-transition.scale.origin.bottom class="relative bg-white dark:bg-inverse-surface w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden m-4">
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-8">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Edit Layanan</h3>
-                                    <p class="text-slate-500 text-sm">Perbarui detail layanan laundry.</p>
+                <template x-teleport="body">
+                    <div x-show="modalEdit" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center">
+                        <div x-show="modalEdit" x-transition.opacity class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" @click="modalEdit = false"></div>
+                        <div x-show="modalEdit" x-transition.scale.origin.bottom class="relative bg-white dark:bg-inverse-surface w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden m-4">
+                            <div class="p-8">
+                                <div class="flex justify-between items-start mb-8">
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Edit Layanan</h3>
+                                        <p class="text-slate-500 text-sm">Perbarui detail layanan laundry.</p>
+                                    </div>
+                                    <button @click="modalEdit = false" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>
+                                    </button>
                                 </div>
-                                <button @click="modalEdit = false" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors">
-                                    <span class="material-symbols-outlined text-[18px]">close</span>
-                                </button>
-                            </div>
 
-                            <form action="{{ route('services.update', $service->id) }}" method="POST" class="space-y-5">
-                                @csrf
-                                @method('PUT')
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="col-span-2">
-                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nama Layanan</label>
-                                        <input type="text" name="name" value="{{ $service->name }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Harga (Rp)</label>
-                                        <input type="number" name="price_per_kg" value="{{ $service->price_per_kg }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Estimasi (Hari)</label>
-                                        <input type="number" name="estimated_days" value="{{ $service->estimated_days }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Status</label>
-                                        <div class="flex items-center gap-2 mt-2">
-                                            <label class="relative inline-flex items-center cursor-pointer">
-                                                <input type="hidden" name="is_active" value="0">
-                                                <input type="checkbox" name="is_active" value="1" {{ $service->is_active ? 'checked' : '' }} class="sr-only peer">
-                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                                                <span class="ml-3 text-sm font-medium text-slate-500">Aktif</span>
-                                            </label>
+                                <form action="{{ route('services.update', $service->id) }}" method="POST" class="space-y-5">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="col-span-2">
+                                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nama Layanan</label>
+                                            <input type="text" name="name" value="{{ $service->name }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Harga (Rp)</label>
+                                            <input type="number" name="price_per_kg" value="{{ $service->price_per_kg }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Estimasi (Hari)</label>
+                                            <input type="number" name="estimated_days" value="{{ $service->estimated_days }}" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Status</label>
+                                            <div class="flex items-center gap-2 mt-2">
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="hidden" name="is_active" value="0">
+                                                    <input type="checkbox" name="is_active" value="1" {{ $service->is_active ? 'checked' : '' }} class="sr-only peer">
+                                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                                    <span class="ml-3 text-sm font-medium text-slate-500">Aktif</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Deskripsi Layanan</label>
+                                            <textarea name="description" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" rows="3">{{ $service->description }}</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-span-2">
-                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Deskripsi Layanan</label>
-                                        <textarea name="description" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" rows="3">{{ $service->description }}</textarea>
+                                    <div class="flex gap-3 pt-4">
+                                        <button type="button" @click="modalEdit = false" class="flex-1 border border-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 transition-colors">Batal</button>
+                                        <button type="submit" class="flex-1 bg-primary text-white py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-secondary transition-colors">Simpan Perubahan</button>
                                     </div>
-                                </div>
-                                <div class="flex gap-3 pt-4">
-                                    <button type="button" @click="modalEdit = false" class="flex-1 border border-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 transition-colors">Batal</button>
-                                    <button type="submit" class="flex-1 bg-primary text-white py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-secondary transition-colors">Simpan Perubahan</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </template>
             </div>
             @endforeach
         </div>
