@@ -64,3 +64,5 @@ Route::get('/orders/{id}', function ($id) {
 
 
 Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
+
+Route::post('/promo/store', [App\Http\Controllers\PromoController::class, 'store'])->name('promo.store');

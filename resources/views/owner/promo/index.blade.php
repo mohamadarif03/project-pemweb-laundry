@@ -4,6 +4,14 @@
 @section('header_title', 'Daftar Promo & Voucher')
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success mt-3">
+        {{ session('success') }}
+    </div>
+@endif
+
+<form action="{{ route('promo.store') }}" method="POST">
+    
 <div class="max-w-container-max mx-auto space-y-6 animate-fade-in" x-data="{ modalPromo: false, search: '' }">
     
     <!-- Top Action Bar -->
@@ -34,7 +42,7 @@
         </button>
     </div>
 
-    <!-- Promo Table -->
+    Promo Table
     <div class="bg-white dark:bg-inverse-surface rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -173,38 +181,51 @@
                     </button>
                 </div>
                 
-                <form class="space-y-5">
-                    <div>
+                <form action="{{ route('promo.store') }}" method="POST" class="space-y-5">
+                    @csrf <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Kode Promo</label>
-                        <input type="text" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm font-mono focus:ring-primary focus:border-primary uppercase" placeholder="Contoh: WELCOME10">
+                        <input type="text" name="code" required 
+                            class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm font-mono focus:ring-primary focus:border-primary uppercase" 
+                            placeholder="Contoh: WELCOME10">
                     </div>
+
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nama Promo</label>
-                        <input type="text" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" placeholder="Contoh: Diskon Member Baru">
+                        <input type="text" name="name" required 
+                            class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" 
+                            placeholder="Contoh: Diskon Member Baru">
                     </div>
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Tipe Diskon</label>
-                            <select class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary appearance-none">
+                            <select name="discount_type" 
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary appearance-none">
                                 <option value="percent">Persentase (%)</option>
                                 <option value="nominal">Nominal (Rp)</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nilai</label>
-                            <input type="number" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" placeholder="10">
+                            <input type="number" name="discount_value" required 
+                                class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary" 
+                                placeholder="10">
                         </div>
                     </div>
+
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Berlaku Sampai</label>
-                        <input type="date" class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
+                        <input type="date" name="expires_at" required 
+                            class="w-full rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-primary focus:border-primary">
                     </div>
                     
                     <div class="flex gap-3 pt-4">
-                        <button type="button" @click="modalPromo = false" class="flex-1 border border-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 transition-colors">
+                        <button type="button" @click="modalPromo = false" 
+                            class="flex-1 border border-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 transition-colors">
                             Batal
                         </button>
-                        <button type="submit" class="flex-1 bg-primary text-white py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-secondary transition-colors">
+                        <button type="submit" 
+                            class="flex-1 bg-primary text-white py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-secondary transition-colors">
                             Simpan Promo
                         </button>
                     </div>
