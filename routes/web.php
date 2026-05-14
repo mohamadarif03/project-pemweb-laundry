@@ -68,6 +68,7 @@ Route::post('/services/store', [ServiceController::class, 'store'])->name('servi
 Route::delete('/services/delete/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
 Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
+Route::patch('/services/{service}/update-status', [\App\Http\Controllers\ServiceController::class, 'updateStatus'])->name('services.update-status');
 
 Route::post('/promo/store', [App\Http\Controllers\PromoController::class, 'store'])->name('promo.store');
 Route::delete('/promo/{id}', [App\Http\Controllers\PromoController::class, 'destroy'])->name('promo.destroy');

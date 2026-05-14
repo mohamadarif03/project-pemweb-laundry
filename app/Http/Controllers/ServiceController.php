@@ -25,7 +25,7 @@ class ServiceController extends Controller
 
         $services = $query->latest()->get();
 
-        return view('owner.services.index', compact('services'));
+        return view('owner.service.index', compact('services'));
     }
 
     /**
@@ -65,9 +65,21 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ServiceRequest $request, string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        $service->update($request->validated());
+
+        return redirect()->route('services.index')->with('success', 'Layanan berhasil diperbarui');
+    }
+
+    public function updateStatus($id)
+    {
+        $service = Service::findOrFail($id);
+        $service->is_active = !$service->is_active;
+        $service->save();
+
+        return redirect()->back()->with('success', 'Status layanan berhasil diubah');
     }
 
     /**
