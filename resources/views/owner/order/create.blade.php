@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <form action="#" method="POST" class="space-y-6">
+    <form action="{{ route('orders.store') }}" method="POST" class="space-y-6">
         @csrf
         
         <!-- Informasi Pelanggan -->
@@ -30,11 +30,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Pilih Pelanggan <span class="text-red-500">*</span></label>
-                    <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                        <option value="">-- Pilih atau Cari Pelanggan --</option>
-                        <option value="1">Arif (08123456789)</option>
-                        <option value="2">Budi (08987654321)</option>
-                    </select>
+                    <select name="customer_id" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                    <option value="">-- Pilih atau Cari Pelanggan --</option>
+                    @foreach($customers as $customer)
+                        <option value="{{ $customer->id }}">{{ $customer->name }} ({{ $customer->phone }})</option>
+                    @endforeach
+                </select>
                 </div>
                 
                 <div class="space-y-2 flex items-end">
@@ -57,19 +58,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Layanan <span class="text-red-500">*</span></label>
-                    <select x-model="selectedService" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                        <option value="">-- Pilih Layanan --</option>
-                        <option value="cuci_setrika">Cuci Setrika (Rp 9.000/kg)</option>
-                        <option value="cuci_kering">Cuci Kering (Rp 7.000/kg)</option>
-                        <option value="setrika">Setrika Saja (Rp 6.000/kg)</option>
-                        <option value="karpet">Cuci Karpet (Rp 15.000/m2)</option>
-                    </select>
+                    <select name="service_id" x-model="selectedService" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                    <option value="">-- Pilih Layanan --</option>
+                    @foreach($services as $service)
+                        <option value="{{ $service->id }}">{{ $service->name }} (Rp {{ number_format($service->price, 0, ',', '.') }}/kg)</option>
+                    @endforeach
+                </select>
                 </div>
                 
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Berat/Jumlah <span class="text-red-500">*</span></label>
                     <div class="relative">
-                        <input type="number" x-model="qty" min="1" step="0.1" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3 pr-12" placeholder="0">
+                        <input type="number" name="weight" x-model="qty" min="1" step="0.1" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3 pr-12" placeholder="0">
                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400 font-medium text-sm">
                             kg/pcs
                         </div>
@@ -80,25 +80,26 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Promo / Diskon</label>
-                    <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                        <option value="">Tidak ada promo</option>
-                        <option value="1">Diskon 10% Member Baru</option>
-                        <option value="2">Potongan Rp 5.000 (Min. 5kg)</option>
-                    </select>
+                    <select name="voucher_id" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                    <option value="">Tidak ada promo</option>
+                    @foreach($vouchers as $voucher)
+                        <option value="{{ $voucher->id }}">{{ $voucher->name }}</option>
+                    @endforeach
+                </select>
                 </div>
                 
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Layanan Antar/Jemput</label>
-                    <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                       <option value="pickup">Pickup</option>
-                       <option value="delivery">Delivery (+5.000)</option>
-                    </select>
+                    <select name="service_order" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                    <option value="pickup">Pickup</option>
+                    <option value="delivery">Delivery (+5.000)</option>
+                </select>
                 </div>
             </div>
 
             <div class="space-y-2">
                 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Catatan Khusus (Opsional)</label>
-                <textarea rows="2" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Pisahkan pakaian luntur, jangan disetrika terlalu panas..."></textarea>
+                <textarea name="notes" rows="2" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Pisahkan pakaian luntur, jangan disetrika terlalu panas..."></textarea>
             </div>
         </div>
 
@@ -117,12 +118,12 @@
                         <div class="grid grid-cols-2 gap-3">
                             <label class="relative flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-colors"
                                 :class="paymentMethod === 'cash' ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-900/10' : 'border-slate-200 dark:border-slate-700'">
-                                <input type="radio" name="payment" value="cash" x-model="paymentMethod" class="text-emerald-500 focus:ring-emerald-500">
+                                <input type="radio" name="payment_method" value="cash" x-model="paymentMethod" class="text-emerald-500 focus:ring-emerald-500">
                                 <span class="font-medium text-sm text-slate-700 dark:text-slate-200">Tunai (Cash)</span>
                             </label>
                             <label class="relative flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-colors"
                                 :class="paymentMethod === 'qris' ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-900/10' : 'border-slate-200 dark:border-slate-700'">
-                                <input type="radio" name="payment" value="qris" x-model="paymentMethod" class="text-emerald-500 focus:ring-emerald-500">
+                                <input type="radio" name="payment_method" value="qris" x-model="paymentMethod" class="text-emerald-500 focus:ring-emerald-500">
                                 <span class="font-medium text-sm text-slate-700 dark:text-slate-200">QRIS / Transfer</span>
                             </label>
                         </div>
@@ -130,10 +131,10 @@
                     
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Status Pembayaran</label>
-                        <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-3">
-                            <option value="unpaid">Belum Dibayar</option>
-                            <option value="paid">Sudah Lunas</option>
-                        </select>
+                        <select name="payment_status" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-3">
+                        <option value="pending">Belum Dibayar</option>
+                        <option value="paid">Sudah Lunas</option>
+                    </select>
                     </div>
                 </div>
 

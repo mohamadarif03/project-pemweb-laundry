@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <form action="#" method="POST" class="space-y-6">
+    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
         
@@ -46,14 +46,14 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <label class="relative flex flex-col items-center gap-2 p-4 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-all text-center"
                     :class="orderStatus === 'masuk' ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/10 ring-2 ring-blue-500/20' : 'border-slate-200 dark:border-slate-700'">
-                    <input type="radio" name="status" value="masuk" x-model="orderStatus" class="sr-only">
+                    <input type="radio" name="laundry_status" value="order_masuk" x-model="orderStatus" class="sr-only">
                     <span class="material-symbols-outlined text-2xl" :class="orderStatus === 'masuk' ? 'text-blue-500' : 'text-slate-400'">inbox</span>
                     <span class="font-semibold text-sm" :class="orderStatus === 'masuk' ? 'text-blue-700 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400'">Order Masuk</span>
                 </label>
                 
                 <label class="relative flex flex-col items-center gap-2 p-4 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-all text-center"
                     :class="orderStatus === 'dicuci' ? 'border-orange-500 bg-orange-50/50 dark:bg-orange-900/10 ring-2 ring-orange-500/20' : 'border-slate-200 dark:border-slate-700'">
-                    <input type="radio" name="status" value="dicuci" x-model="orderStatus" class="sr-only">
+                    <input type="radio" name="laundry_status" value="sedang_dicuci" x-model="orderStatus" class="sr-only">
                     <div class="relative">
                         <span class="material-symbols-outlined text-2xl" :class="orderStatus === 'dicuci' ? 'text-orange-500' : 'text-slate-400'">water_drop</span>
                         <div x-show="orderStatus === 'dicuci'" class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-orange-500 animate-ping"></div>
@@ -63,14 +63,14 @@
 
                 <label class="relative flex flex-col items-center gap-2 p-4 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-all text-center"
                     :class="orderStatus === 'disetrika' ? 'border-purple-500 bg-purple-50/50 dark:bg-purple-900/10 ring-2 ring-purple-500/20' : 'border-slate-200 dark:border-slate-700'">
-                    <input type="radio" name="status" value="disetrika" x-model="orderStatus" class="sr-only">
+                    <input type="radio" name="laundry_status" value="sedang_disetrika" x-model="orderStatus" class="sr-only">
                     <span class="material-symbols-outlined text-2xl" :class="orderStatus === 'disetrika' ? 'text-purple-500' : 'text-slate-400'">iron</span>
                     <span class="font-semibold text-sm" :class="orderStatus === 'disetrika' ? 'text-purple-700 dark:text-purple-400' : 'text-slate-600 dark:text-slate-400'">Disetrika</span>
                 </label>
 
                 <label class="relative flex flex-col items-center gap-2 p-4 border rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dim/20 transition-all text-center"
                     :class="orderStatus === 'selesai' ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-900/10 ring-2 ring-emerald-500/20' : 'border-slate-200 dark:border-slate-700'">
-                    <input type="radio" name="status" value="selesai" x-model="orderStatus" class="sr-only">
+                    <input type="radio" name="laundry_status" value="selesai" x-model="orderStatus" class="sr-only">
                     <span class="material-symbols-outlined text-2xl" :class="orderStatus === 'selesai' ? 'text-emerald-500' : 'text-slate-400'">task_alt</span>
                     <span class="font-semibold text-sm" :class="orderStatus === 'selesai' ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400'">Selesai</span>
                 </label>
@@ -91,35 +91,41 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Pelanggan</label>
-                        <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                            <option value="1" selected>Arif (08123456789)</option>
-                            <option value="2">Budi (08987654321)</option>
-                        </select>
+                        <select name="customer_id" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                        @foreach($customers as $customer)
+                            <option value="{{ $customer->id }}" {{ $order->customer_id == $customer->id ? 'selected' : '' }}>
+                                {{ $customer->name }} ({{ $customer->phone }})
+                            </option>
+                        @endforeach
+                    </select>
                     </div>
                     
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Layanan</label>
-                        <select x-model="selectedService" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                            <option value="cuci_setrika">Cuci Setrika (Rp 9.000/kg)</option>
-                            <option value="cuci_kering">Cuci Kering (Rp 7.000/kg)</option>
-                            <option value="setrika">Setrika Saja (Rp 6.000/kg)</option>
-                            <option value="karpet">Cuci Karpet (Rp 15.000/m2)</option>
-                        </select>
+                        <select name="service_id" x-model="selectedService" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                        @foreach($services as $service)
+                            <option value="{{ $service->id }}" {{ $order->service_id == $service->id ? 'selected' : '' }}>
+                                {{ $service->name }} (Rp {{ number_format($service->price, 0, ',', '.') }}/kg)
+                            </option>
+                        @endforeach
+                    </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Berat/Jumlah (kg/pcs)</label>
-                        <input type="number" x-model="qty" min="1" step="0.1" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                        <input type="number" name="weight" x-model="qty" value="{{ $order->weight }}" min="1" step="0.1" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
                     </div>
                     
                     <div class="space-y-2">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Promo / Diskon</label>
-                        <select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                            <option value="">Tidak ada promo</option>
-                            <option value="1">Diskon 10% Member Baru</option>
-                        </select>
+                        <select name="voucher_id" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                        <option value="">Tidak ada promo</option>
+                        @foreach($vouchers as $voucher)
+                            <option value="{{ $voucher->id }}">{{ $voucher->name }}</option>
+                        @endforeach
+                    </select>
                     </div>
                 </div>
             </div>
@@ -136,19 +142,21 @@
                 <div class="space-y-4">
                     <div class="flex items-center gap-4">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300 w-24">Status:</label>
-                        <select class="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-2.5 font-semibold"
-                                :class="paymentStatus === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-orange-500'" x-model="paymentStatus">
-                            <option value="unpaid">Belum Dibayar</option>
-                            <option value="paid">Sudah Lunas</option>
-                        </select>
+                        <select name="payment_status" class="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-2.5 font-semibold"
+                            :class="paymentStatus === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-orange-500'" x-model="paymentStatus">
+                        <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Belum Dibayar</option>
+                        <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Sudah Lunas</option>
+                    </select>
                     </div>
                     
                     <div class="flex items-center gap-4">
                         <label class="text-sm font-medium text-slate-700 dark:text-slate-300 w-24">Metode:</label>
-                        <select class="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-2.5">
-                            <option value="cash" selected>Tunai (Cash)</option>
-                            <option value="qris">QRIS / Transfer</option>
-                        </select>
+                        <select name="payment_method" class="flex-1 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-2.5">
+                        <option value="cash" {{ $order->payment_method == 'cash' ? 'selected' : '' }}>Tunai (Cash)</option>
+                        <option value="transfer" {{ $order->payment_method == 'transfer' ? 'selected' : '' }}>Transfer</option>
+                        <option value="qris" {{ $order->payment_method == 'qris' ? 'selected' : '' }}>QRIS</option>
+                        <option value="ewallet" {{ $order->payment_method == 'ewallet' ? 'selected' : '' }}>E-Wallet</option>
+                    </select>
                     </div>
                 </div>
 
@@ -181,10 +189,10 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('editOrderForm', () => ({
-            orderStatus: 'dicuci', // Default value for this edit example
-            selectedService: 'cuci_setrika',
-            qty: '3',
-            paymentStatus: 'paid', // Default from index view
+            orderStatus: '{{ $order->laundry_status }}',
+            selectedService: '{{ $order->service_id }}',
+            qty: '{{ $order->weight }}',
+            paymentStatus: '{{ $order->payment_status }}',
             
             get subtotal() {
                 // Harga dummy, sesuaikan dengan backend

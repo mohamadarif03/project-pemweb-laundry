@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,21 +43,20 @@ Route::get('/reports', function () {
 
 Route::get('/promo', [\App\Http\Controllers\PromoController::class, 'index'])->name('promo.index');
 
-Route::get('/reviews', function () {
-    return view('owner.review.index');
-});
+// Review Routes
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 Route::get('/profile', function () {
     return view('owner.profile.index');
 });
 
-Route::get('/orders/create', function () {
-    return view('owner.order.create');
-});
-
-Route::get('/orders/{id}/edit', function ($id) {
-    return view('owner.order.update');
-});
+// Order Routes
+Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
+Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
