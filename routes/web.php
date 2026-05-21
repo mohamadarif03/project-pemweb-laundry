@@ -13,9 +13,8 @@ Route::get('/dashboard', function () {
     return view('owner.dashboard');
 });
 
-Route::get('/orders', function () {
-    return view('owner.order.index');
-});
+Route::get('/orders', [OrderController::class, 'index'])
+    ->name('orders.index');
 
 Route::get('/pickup-delivery', function () {
     return view('owner.logistics.index');

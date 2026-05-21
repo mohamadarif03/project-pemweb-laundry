@@ -50,52 +50,86 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    @foreach ($orders as $order)
                     <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
-                        <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">INV-001</td>
-                        <td class="py-4 px-6">
-                            <div class="font-semibold text-slate-900 dark:text-white">Arif</div>
-                            <div class="text-xs text-slate-500">08123456789</div>
+
+                        <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">
+                            {{ $order->invoice_code }}
                         </td>
+
+                        <td class="py-4 px-6">
+                            <div class="font-semibold text-slate-900 dark:text-white">
+                                {{ $order->customer->name ?? '-' }}
+                            </div>
+
+                            <div class="text-xs text-slate-500">
+                                {{ $order->customer->phone ?? '-' }}
+                            </div>
+                        </td>
+
                         <td class="py-4 px-6">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-medium">
-                                <span class="material-symbols-outlined text-[14px]">local_laundry_service</span>
-                                Cuci Setrika
+
+                                <span class="material-symbols-outlined text-[14px]">
+                                    local_laundry_service
+                                </span>
+
+                                {{ $order->service->service_name ?? '-' }}
                             </span>
                         </td>
-                        <td class="py-4 px-6 font-medium text-slate-700 dark:text-slate-300">3 kg</td>
-                        <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Rp 27.000</td>
+
+                        <td class="py-4 px-6 font-medium text-slate-700 dark:text-slate-300">
+                            {{ $order->weight }} kg
+                        </td>
+
+                        <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">
+                            Rp {{ number_format($order->total_price, 0, ',', '.') }}
+                        </td>
+
                         <td class="py-4 px-6">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 font-semibold text-xs">
+
                                 <div class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></div>
-                                Dicuci
+
+                                {{ $order->laundry_status }}
                             </span>
                         </td>
+
                         <td class="py-4 px-6">
                             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 font-semibold text-xs">
-                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                                Paid
+
+                                <span class="material-symbols-outlined text-[14px]">
+                                    check_circle
+                                </span>
+
+                                {{ $order->payment_status }}
                             </span>
                         </td>
+
                         <td class="py-4 px-6">
                             <div class="flex justify-end items-center gap-2 transition-opacity">
-                                <a href="/orders/1" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Order">
-                                    <span class="material-symbols-outlined text-[18px]">visibility</span>
+
+                                <a href="/orders/{{ $order->id }}"
+                                class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100">
+
+                                    <span class="material-symbols-outlined text-[18px]">
+                                        visibility
+                                    </span>
                                 </a>
-                                <button class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center hover:bg-orange-100 tooltip" title="Update Status">
-                                    <span class="material-symbols-outlined text-[18px]">sync</span>
-                                </button>
-                                <a href="/orders/1/edit" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>
+
+                                <a href="/orders/{{ $order->id }}/edit"
+                                class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200">
+
+                                    <span class="material-symbols-outlined text-[18px]">
+                                        edit
+                                    </span>
                                 </a>
-                                <button class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 tooltip" title="Print Nota">
-                                    <span class="material-symbols-outlined text-[18px]">print</span>
-                                </button>
-                            </div>
-                            <div class="flex lg:hidden justify-end mt-2">
-                                <a href="/orders/1" class="text-primary text-xs font-semibold">Lihat Detail &rarr;</a>
+
                             </div>
                         </td>
+
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

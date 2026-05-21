@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = Order::with(['customer', 'service'])->get();
+
+        return view('owner.order.index', compact('orders'));
+    }
+    
     public function create()
     {
         $customers = Customer::all();
