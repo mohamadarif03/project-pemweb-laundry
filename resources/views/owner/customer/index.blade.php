@@ -4,7 +4,8 @@
 @section('header_title', 'Manajemen Pelanggan')
 
 @section('content')
-<div class="max-w-container-max mx-auto space-y-6 animate-fade-in" x-data="{ modalDetail: false }">
+<div class="max-w-container-max mx-auto space-y-6 animate-fade-in"
+    x-data="{ modalDetail: false, modalCustomer: false }">
     
     <div class="bg-white dark:bg-inverse-surface rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
         <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
@@ -27,7 +28,8 @@
             </div>
         </div>
         
-        <button class="w-full md:w-auto bg-primary text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 hover:bg-secondary transition-all flex items-center justify-center gap-2 group">
+        <button @click="modalCustomer = true"
+            class="w-full md:w-auto bg-primary text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/30 hover:bg-secondary transition-all flex items-center justify-center gap-2 group">
             <span class="material-symbols-outlined text-lg group-hover:rotate-90 transition-transform">person_add</span>
             Tambah Pelanggan
         </button>
@@ -75,9 +77,11 @@
                                 <button @click="modalDetail = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Pelanggan">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
+                                <a href="{{ route('customers.edit', 1) }}"
+                                    class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip"
+                                    title="Edit">
                                     <span class="material-symbols-outlined text-[18px]">edit</span>
-                                </button>
+                                </a>
                                 <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus">
                                     <span class="material-symbols-outlined text-[18px]">delete</span>
                                 </button>
@@ -166,6 +170,65 @@
     </div>
 </div>
 
+<div x-show="modalCustomer"
+    style="display: none;"
+    class="fixed inset-0 z-50 flex items-center justify-center">
+
+    <div x-show="modalCustomer"
+        x-transition.opacity
+        class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+        @click="modalCustomer = false">
+    </div>
+
+    <div x-show="modalCustomer"
+        x-transition.scale.origin.bottom
+        class="relative bg-white dark:bg-inverse-surface w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden m-4">
+
+        <div class="p-8">
+
+            <div class="flex justify-between items-center mb-6">
+
+                <h3 class="text-2xl font-bold">
+                    Tambah Pelanggan
+                </h3>
+
+                <button @click="modalCustomer = false">
+                    ✕
+                </button>
+
+            </div>
+
+            <form action="{{ route('customers.store') }}"
+                method="POST"
+                class="space-y-4">
+
+                @csrf
+
+                <input type="text"
+                    name="name"
+                    placeholder="Nama"
+                    class="w-full rounded-xl border-slate-200 p-3">
+
+                <input type="text"
+                    name="phone"
+                    placeholder="Nomor HP"
+                    class="w-full rounded-xl border-slate-200 p-3">
+
+                <textarea name="address"
+                    placeholder="Alamat"
+                    class="w-full rounded-xl border-slate-200 p-3"></textarea>
+
+                <button type="submit"
+                    class="w-full bg-primary text-white py-3 rounded-xl font-bold">
+
+                    Simpan Pelanggan
+
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <style>

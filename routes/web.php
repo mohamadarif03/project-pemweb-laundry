@@ -32,6 +32,10 @@ Route::get('/customers/{id}/edit', function ($id) {
     return view('owner.customer.update');
 });
 
+Route::get('/customers/edit/{id}',
+    [CustomerController::class, 'edit'])
+    ->name('customers.edit');
+
 // Route::get('/services', function () {
 //     return view('owner.service.index');
 // });
