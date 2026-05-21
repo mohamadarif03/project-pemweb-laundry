@@ -43,7 +43,7 @@ class ServiceController extends Controller
     {
        Service::create($request->validated());
 
-        return redirect()->route('owner.services.index')->with('success', 'Layanan berhasil ditambahkan!');
+        return redirect()->route('services.index')->with('success', 'Layanan berhasil ditambahkan!'); 
     }
 
     /**
