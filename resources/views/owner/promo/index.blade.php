@@ -58,7 +58,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                     @foreach ($promos as $promo)
-                    <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
+                    <tr x-data="{ modalDetail: false }" class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group" x-show="search === '' || $el.innerText.toLowerCase().includes(search.toLowerCase())">
                         <td class="py-4 px-6">
                             <span class="font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20 tracking-wider">{{ $promo->code }}</span>
                         </td>
@@ -94,7 +94,7 @@
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex justify-end items-center gap-2 transition-opacity">
-                                <button class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail">
+                                <button type="button" @click="modalDetail = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail">
                                     <span class="material-symbols-outlined text-[18px]">visibility</span>
                                 </button>
                                 <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip" title="Edit">
@@ -115,8 +115,54 @@
                                     </button>
                                 </form>
                             </div>
+
+                            <!-- MODAL: DETAIL PROMO -->
+                            <template x-teleport="body">
+                                <div x-show="modalDetail" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center">
+                                    <div x-show="modalDetail" x-transition.opacity class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" @click="modalDetail = false"></div>
+                                    <div x-show="modalDetail" x-transition.scale.origin.bottom class="relative bg-white dark:bg-inverse-surface w-full max-w-md rounded-3xl shadow-2xl overflow-hidden m-4">
+                                        <div class="p-8">
+                                            <div class="flex justify-between items-start mb-6">
+                                                <div>
+                                                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Detail Promo</h3>
+                                                </div>
+                                                <button @click="modalDetail = false" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors">
+                                                    <span class="material-symbols-outlined text-[18px]">close</span>
+                                                </button>
+                                            </div>
+                                            <div class="space-y-4">
+                                                <div>
+                                                    <p class="text-xs font-bold text-slate-500 uppercase">Kode Promo</p>
+                                                    <p class="font-mono font-bold text-primary">{{ $promo->code }}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs font-bold text-slate-500 uppercase">Nilai Diskon</p>
+                                                    <p class="font-bold">{{ $promo->discount_type == 'percent' ? $promo->discount_value . '%' : 'Rp' . number_format($promo->discount_value, 0, ',', '.') }}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs font-bold text-slate-500 uppercase">Status</p>
+                                                    <p class="font-bold">
+                                                        @if($isExpired)
+                                                            <span class="text-red-600">Expired</span>
+                                                        @elseif(!$promo->is_active)
+                                                            <span class="text-slate-600">Nonaktif</span>
+                                                        @else
+                                                            <span class="text-green-600">Aktif</span>
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs font-bold text-slate-500 uppercase">Berlaku Sampai</p>
+                                                    <p class="font-bold">{{ \Carbon\Carbon::parse($promo->end_date)->format('d M Y') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                         </td>
                     </tr>
+
                     @endforeach
                 </tbody>
             </table>

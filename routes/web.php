@@ -40,7 +40,6 @@ Route::get('/reports', function () {
     return view('owner.report.index');
 });
 
-Route::get('/promo', [\App\Http\Controllers\PromoController::class, 'index'])->name('promo.index');
 
 // Review Routes
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
@@ -61,15 +60,15 @@ Route::get('/orders/{id}', function ($id) {
     return view('owner.order.detail');
 });
 
+// Service Routes
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-
 Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
-
 Route::delete('/services/delete/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
-
 Route::resource('services', \App\Http\Controllers\ServiceController::class)->names('services');
 Route::patch('/services/{service}/update-status', [\App\Http\Controllers\ServiceController::class, 'updateStatus'])->name('services.update-status');
 
+// Promo Routes
+Route::get('/promo', [\App\Http\Controllers\PromoController::class, 'index'])->name('promo.index');
 Route::post('/promo/store', [App\Http\Controllers\PromoController::class, 'store'])->name('promo.store');
 Route::delete('/promo/{id}', [App\Http\Controllers\PromoController::class, 'destroy'])->name('promo.destroy');
 Route::patch('/promo/{id}/toggle-status', [App\Http\Controllers\PromoController::class, 'toggleStatus'])->name('promo.toggle-status');
