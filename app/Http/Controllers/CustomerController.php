@@ -61,4 +61,10 @@ class CustomerController extends Controller
 
         return redirect()->back()->with('success', 'Customer berhasil dihapus');
     }
+
+    public function edit($id)
+    { 
+        $customer = Customer::findOrFail($id); 
+        return view('owner.customer.edit', compact('customer')); 
+    }
 }
