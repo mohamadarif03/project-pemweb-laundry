@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,17 +21,17 @@ Route::get('/pickup-delivery', function () {
     return view('owner.logistics.index');
 });
 
-Route::get('/customers', function () {
-    return view('owner.customer.index');
-});
+// Route::get('/customers', function () {
+//     return view('owner.customer.index');
+// });
 
-Route::get('/customers/create', function () {
-    return view('owner.customer.create');
-});
+// Route::get('/customers/create', function () {
+//     return view('owner.customer.create');
+// });
 
-Route::get('/customers/{id}/edit', function ($id) {
-    return view('owner.customer.update');
-});
+// Route::get('/customers/{id}/edit', function ($id) {
+//     return view('owner.customer.update');
+// });
 
 Route::get('/customers/edit/{id}',
     [CustomerController::class, 'edit'])
@@ -44,6 +45,24 @@ Route::get('/reports', function () {
     return view('owner.report.index');
 });
 
+// Customer Routes
+Route::get('/customers', [CustomerController::class, 'index'])
+    ->name('customers.index');
+
+Route::post('/customers/store', [CustomerController::class, 'store'])
+    ->name('customers.store');
+
+Route::get('/customers/edit/{id}', [CustomerController::class, 'edit'])
+    ->name('customers.edit');
+
+Route::put('/customers/update/{id}', [CustomerController::class, 'update'])
+    ->name('customers.update');
+
+Route::delete('/customers/delete/{id}', [CustomerController::class, 'destroy'])
+    ->name('customers.destroy');
+
+Route::patch('/customers/status/{id}', [CustomerController::class, 'updateStatus'])
+    ->name('customers.status');
 
 // Review Routes
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');

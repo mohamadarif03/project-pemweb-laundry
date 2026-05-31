@@ -9,10 +9,11 @@ class CustomerController extends Controller
 {
 
     public function index()
-    {
-        $customers = Customer::all();
-        return view('customers.index', compact('customers'));
-    }
+{
+    $customers = Customer::all();
+
+    return view('owner.customer.index', compact('customers'));
+}
 
     public function store(Request $request)
     {
@@ -67,4 +68,6 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id); 
         return view('owner.customer.edit', compact('customer')); 
     }
+
+    
 }

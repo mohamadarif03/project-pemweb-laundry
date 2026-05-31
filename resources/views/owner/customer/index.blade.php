@@ -168,74 +168,85 @@
             </div>
         </div>
     </div>
-</div>
-
-<div x-show="modalCustomer"
-    style="display: none;"
-    class="fixed inset-0 z-50 flex items-center justify-center">
 
     <div x-show="modalCustomer"
-        x-transition.opacity
-        class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-        @click="modalCustomer = false">
-    </div>
+        style="display: none;"
+        class="fixed inset-0 z-50 flex items-center justify-center">
 
-    <div x-show="modalCustomer"
-        x-transition.scale.origin.bottom
-        class="relative bg-white dark:bg-inverse-surface w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden m-4">
+        <div x-show="modalCustomer"
+            x-transition.opacity
+            class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+            @click="modalCustomer = false">
+        </div>
 
-        <div class="p-8">
+        <div x-show="modalCustomer"
+            x-transition.scale.origin.bottom
+            class="relative bg-white dark:bg-inverse-surface w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden m-4">
 
-            <div class="flex justify-between items-center mb-6">
+            <div class="p-8">
 
-                <h3 class="text-2xl font-bold">
-                    Tambah Pelanggan
-                </h3>
+                <div class="flex justify-between items-center mb-6">
 
-                <button @click="modalCustomer = false">
-                    ✕
-                </button>
+                    <h3 class="text-2xl font-bold">
+                        Tambah Pelanggan
+                    </h3>
 
+                    <button @click="modalCustomer = false"
+                        class="text-xl font-bold">
+                        ✕
+                    </button>
+
+                </div>
+
+                <form action="{{ route('customers.store') }}"
+                    method="POST"
+                    class="space-y-4">
+
+                    @csrf
+
+                    <input type="text"
+                        name="name"
+                        placeholder="Nama"
+                        class="w-full rounded-xl border-slate-200 p-3">
+
+                    <input type="text"
+                        name="phone"
+                        placeholder="Nomor HP"
+                        class="w-full rounded-xl border-slate-200 p-3">
+
+                    <textarea name="address"
+                        placeholder="Alamat"
+                        class="w-full rounded-xl border-slate-200 p-3"></textarea>
+
+                    <button type="submit"
+                        class="w-full bg-primary text-white py-3 rounded-xl font-bold">
+
+                        Simpan Pelanggan
+
+                    </button>
+
+                </form>
             </div>
-
-            <form action="{{ route('customers.store') }}"
-                method="POST"
-                class="space-y-4">
-
-                @csrf
-
-                <input type="text"
-                    name="name"
-                    placeholder="Nama"
-                    class="w-full rounded-xl border-slate-200 p-3">
-
-                <input type="text"
-                    name="phone"
-                    placeholder="Nomor HP"
-                    class="w-full rounded-xl border-slate-200 p-3">
-
-                <textarea name="address"
-                    placeholder="Alamat"
-                    class="w-full rounded-xl border-slate-200 p-3"></textarea>
-
-                <button type="submit"
-                    class="w-full bg-primary text-white py-3 rounded-xl font-bold">
-
-                    Simpan Pelanggan
-
-                </button>
-
-            </form>
         </div>
     </div>
+
 </div>
+
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <style>
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
     .animate-fade-in {
         animation: fadeIn 0.4s ease-out forwards;
     }
