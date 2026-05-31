@@ -36,13 +36,21 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
 
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
+
         $customer->update([
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
         ]);
 
-        return redirect()->back()->with('success', 'Customer berhasil diupdate');
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Customer berhasil diupdate');
     }
 
     public function updateStatus(Request $request, $id)
@@ -63,10 +71,11 @@ class CustomerController extends Controller
         return redirect()->back()->with('success', 'Customer berhasil dihapus');
     }
 
-    public function edit($id)
-    { 
-        $customer = Customer::findOrFail($id); 
-        return view('owner.customer.edit', compact('customer')); 
+   public function edit($id)
+    {
+    $customer = Customer::findOrFail($id);
+
+    return view('owner.customer.update', compact('customer'));
     }
 
     

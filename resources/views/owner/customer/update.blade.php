@@ -1,7 +1,7 @@
 @extends('owner.layouts.app')
 
 @section('title', 'Edit Data Pelanggan - LaundroMetrics')
-@section('header_title', 'Edit Pelanggan: Arif Kurniawan')
+@section('header_title', 'Edit Pelanggan: ' . $customer->name)
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6 animate-fade-in">
@@ -27,7 +27,9 @@
         </div>
     </div>
 
-    <form action="#" method="POST" class="space-y-6">
+    <form action="{{ route('customers.update', $customer->id) }}"
+            method="POST"
+            class="space-y-6">
         @csrf
         @method('PUT')
         
@@ -37,10 +39,10 @@
             
             <div class="flex items-center gap-4 mb-6 p-4 bg-slate-50 dark:bg-surface-dim/20 rounded-xl border border-slate-100 dark:border-slate-800">
                 <div class="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">
-                    AK
+                    {{ strtoupper(substr($customer->name, 0, 2)) }}
                 </div>
                 <div>
-                    <h4 class="font-bold text-slate-800 dark:text-white">Arif Kurniawan</h4>
+                    <h4 class="font-bold text-slate-800 dark:text-white">{{ $customer->name }}</h4>
                     <p class="text-xs text-slate-500">Bergabung sejak: 12 Jan 2024</p>
                 </div>
             </div>
@@ -53,7 +55,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" value="Arif Kurniawan" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
+                    <input type="text" name="name" value="{{ $customer->name }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
                 </div>
                 
                 <div class="space-y-2">
@@ -62,7 +64,7 @@
                         <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-surface-dim/50 text-slate-500 sm:text-sm">
                             +62
                         </span>
-                        <input type="tel" name="phone" value="81234567890" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
+                        <input type="tel" name="phone" value="{{ $customer->phone }}" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
                     </div>
                 </div>
             </div>
@@ -94,7 +96,9 @@
             
             <div class="space-y-2">
                 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Lengkap <span class="text-red-500">*</span></label>
-                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>Jl. Mawar Bodas No. 42, Kel. Suka Maju, Kec. Ceria, Kota Bandung</textarea>
+                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3"
+                    required>{{ $customer->address }}
+                </textarea>
             </div>
         </div>
 

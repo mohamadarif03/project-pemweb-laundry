@@ -18,7 +18,7 @@
             class="bg-white dark:bg-inverse-surface rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between">
             <div class="flex items-center gap-4">
                 <h2 class="text-lg font-bold text-slate-900 dark:text-white">Daftar Layanan</h2>
-                <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-0.5 rounded-full">12 Layanan</span>
+                <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-0.5 rounded-full">{{ $services->count() }} Layanan</span>
             </div>
 
             <button @click="modalService = true"

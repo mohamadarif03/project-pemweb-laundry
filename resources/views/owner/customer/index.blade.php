@@ -48,46 +48,71 @@
                         <th class="py-4 px-6 text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                    <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
-                        <td class="py-4 px-6">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                                    AK
+               <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                @forelse($customers as $customer)
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-surface-dim/10 transition-colors group">
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                                {{ strtoupper(substr($customer->name, 0, 2)) }}
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-900 dark:text-white">
+                                    {{ $customer->name }}
                                 </div>
-                                <div>
-                                    <div class="font-bold text-slate-900 dark:text-white">Arif Kurniawan</div>
-                                    <span class="text-[10px] px-2 py-0.5 rounded bg-green-100 text-green-700 font-bold uppercase tracking-wider">Premium</span>
-                                </div>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-green-100 text-green-700 font-bold uppercase tracking-wider">
+                                    Aktif
+                                </span>
                             </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex flex-col">
-                                <span class="font-medium text-slate-700 dark:text-slate-300">081234567890</span>
-                                <span class="text-xs text-slate-400">arif@example.com</span>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <p class="text-slate-600 dark:text-slate-400 max-w-[200px] truncate">Jl. Mawar Bodas No. 42, Bandung</p>
-                        </td>
-                        <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">24 Order</td>
-                        <td class="py-4 px-6 text-slate-500">12 Jan 2024</td>
-                        <td class="py-4 px-6">
-                            <div class="flex justify-end items-center gap-2 transition-opacity">
-                                <button @click="modalDetail = true" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 tooltip" title="Detail Pelanggan">
-                                    <span class="material-symbols-outlined text-[18px]">visibility</span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex flex-col">
+                            <span class="font-medium text-slate-700 dark:text-slate-300">
+                                {{ $customer->phone }}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <p class="text-slate-600 dark:text-slate-400 max-w-[200px] truncate">
+                            {{ $customer->address }}
+                        </p>
+                    </td>
+                    <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">
+                        -
+                    </td>
+                    <td class="py-4 px-6 text-slate-500">
+                        {{ $customer->created_at->format('d M Y') }}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex justify-end items-center gap-2">
+                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200">
+                                <span class="material-symbols-outlined text-[18px]">
+                                    edit
+                                </span>
+                            </a>
+                            <form action="{{ route('customers.destroy', $customer->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100">
+                                    <span class="material-symbols-outlined text-[18px]">
+                                        delete
+                                    </span>
                                 </button>
-                                <a href="{{ route('customers.edit', 1) }}"
-                                    class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 tooltip"
-                                    title="Edit">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>
-                                </a>
-                                <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 tooltip" title="Hapus">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center py-8 text-slate-500">
+                        Belum ada data pelanggan
+                    </td>
+                </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>
