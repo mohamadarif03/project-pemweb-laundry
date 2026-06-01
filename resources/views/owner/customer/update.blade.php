@@ -13,27 +13,35 @@
             </a>
             <div>
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    Edit Profil <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-sm">Premium</span>
+                    Edit Profil 
+                    @if($customer->orders()->count() >= 10)
+                        <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-sm">Premium</span>
+                    @elseif($customer->orders()->count() >= 1)
+                        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-sm">Regular</span>
+                    @else
+                        <span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-sm">Baru</span>
+                    @endif
                 </h2>
                 <p class="text-sm text-slate-500">Perbarui informasi kontak dan alamat pelanggan</p>
             </div>
         </div>
         
         <div class="flex gap-2">
-            <button type="button" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-semibold text-sm hover:bg-red-100 transition-colors flex items-center gap-2">
-                <span class="material-symbols-outlined text-[18px]">delete</span>
-                Hapus
-            </button>
+            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pelanggan ini?')" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-semibold text-sm hover:bg-red-100 transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                    Hapus
+                </button>
+            </form>
         </div>
     </div>
 
-    <form action="{{ route('customers.update', $customer->id) }}"
-            method="POST"
-            class="space-y-6">
+    <form action="{{ route('customers.update', $customer->id) }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
         
-        <!-- Informasi Utama -->
         <div class="bg-white dark:bg-inverse-surface rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
             
@@ -43,7 +51,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-slate-800 dark:text-white">{{ $customer->name }}</h4>
-                    <p class="text-xs text-slate-500">Bergabung sejak: 12 Jan 2024</p>
+                    <p class="text-xs text-slate-500">Bergabung sejak: {{ $customer->created_at->format('d M Y') }}</p>
                 </div>
             </div>
 
@@ -55,7 +63,10 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" value="{{ $customer->name }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
+                    <input type="text" name="name" value="{{ old('name', $customer->name) }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
+                    @error('name')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <div class="space-y-2">
@@ -64,29 +75,31 @@
                         <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-surface-dim/50 text-slate-500 sm:text-sm">
                             +62
                         </span>
-                        <input type="tel" name="phone" value="{{ $customer->phone }}" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
+                        <input type="tel" name="phone" value="{{ old('phone', preg_replace('/^\+62|^62|^0/', '', $customer->phone)) }}" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>
                     </div>
+                    @error('phone')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Email</label>
-                    <input type="email" name="email" value="arif@example.com" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
+                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Email (Opsional)</label>
+                    <input type="email" name="email" value="{{ old('email', strtolower(str_replace(' ', '', $customer->name)) . '@email.com') }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
                 </div>
                 
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Kategori Pelanggan</label>
                     <select name="category" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3">
-                        <option value="regular">Regular</option>
-                        <option value="premium" selected>Premium</option>
-                        <option value="new">Member Baru</option>
+                        <option value="regular" {{ $customer->orders()->count() < 10 && $customer->orders()->count() >= 1 ? 'selected' : '' }}>Regular</option>
+                        <option value="premium" {{ $customer->orders()->count() >= 10 ? 'selected' : '' }}>Premium</option>
+                        <option value="new" {{ $customer->orders()->count() == 0 ? 'selected' : '' }}>Member Baru</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- Detail Alamat -->
         <div class="bg-white dark:bg-inverse-surface rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
             <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
@@ -96,9 +109,10 @@
             
             <div class="space-y-2">
                 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Lengkap <span class="text-red-500">*</span></label>
-                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3"
-                    required>{{ $customer->address }}
-                </textarea>
+                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" required>{{ old('address', $customer->address) }}</textarea>
+                @error('address')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 

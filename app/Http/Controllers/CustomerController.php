@@ -2,25 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Customer::query()->withCount('orders');
 
-    public function index()
-{
-    $customers = Customer::all();
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('phone', 'like', '%' . $request->search . '%');
+            });
+        }
 
-    return view('owner.customer.index', compact('customers'));
-}
+        if ($request->filled('category')) {
+            if ($request->category === 'premium') {
+                $query->has('orders', '>=', 10);
+            } elseif ($request->category === 'regular') {
+                $query->has('orders', '>=', 1)->has('orders', '<', 10);
+            } elseif ($request->category === 'new') {
+                $query->doesntHave('orders');
+            }
+        }
+
+        $customers = $query->latest()->get();
+
+        return view('owner.customer.index', compact('customers'));
+    }
+
+    public function create()
+    {
+        return view('owner.customer.create');
+    }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20', 'unique:customers,phone'],
+            'address' => ['required', 'string'],
         ]);
 
         Customer::create([
@@ -29,7 +52,13 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->back()->with('success', 'Customer berhasil ditambahkan');
+        return redirect()->route('customers.index')->with('success', 'Pelanggan berhasil ditambahkan');
+    }
+
+    public function edit($id)
+    {
+        $customer = Customer::findOrFail($id);
+        return view('owner.customer.update', compact('customer'));
     }
 
     public function update(Request $request, $id)
@@ -37,9 +66,9 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
 
         $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20', 'unique:customers,phone,' . $id],
+            'address' => ['required', 'string'],
         ]);
 
         $customer->update([
@@ -48,19 +77,7 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()
-            ->route('customers.index')
-            ->with('success', 'Customer berhasil diupdate');
-    }
-
-    public function updateStatus(Request $request, $id)
-    {
-        $customer = Customer::findOrFail($id);
-
-        $customer->status = $request->status;
-        $customer->save();
-
-        return redirect()->back()->with('success', 'Status berhasil diupdate');
+        return redirect()->route('customers.index')->with('success', 'Pelanggan berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -68,15 +85,6 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
         $customer->delete();
 
-        return redirect()->back()->with('success', 'Customer berhasil dihapus');
+        return redirect()->route('customers.index')->with('success', 'Pelanggan berhasil dihapus');
     }
-
-   public function edit($id)
-    {
-    $customer = Customer::findOrFail($id);
-
-    return view('owner.customer.update', compact('customer'));
-    }
-
-    
 }

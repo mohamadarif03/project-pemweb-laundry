@@ -16,10 +16,9 @@
         </div>
     </div>
 
-    <form action="#" method="POST" class="space-y-6">
+    <form action="{{ route('customers.store') }}" method="POST" class="space-y-6">
         @csrf
         
-        <!-- Informasi Utama -->
         <div class="bg-white dark:bg-inverse-surface rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
             <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
@@ -30,7 +29,10 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="name" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Budi Santoso" required>
+                    <input type="text" name="name" value="{{ old('name') }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Budi Santoso" required>
+                    @error('name')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <div class="space-y-2">
@@ -39,15 +41,18 @@
                         <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-surface-dim/50 text-slate-500 sm:text-sm">
                             +62
                         </span>
-                        <input type="tel" name="phone" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="81234567890" required>
+                        <input type="tel" name="phone" value="{{ old('phone') }}" class="w-full rounded-r-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="81234567890" required>
                     </div>
+                    @error('phone')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Email (Opsional)</label>
-                    <input type="email" name="email" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="budi@example.com">
+                    <input type="email" name="email" value="{{ old('email') }}" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="budi@example.com">
                 </div>
                 
                 <div class="space-y-2">
@@ -61,7 +66,6 @@
             </div>
         </div>
 
-        <!-- Detail Alamat -->
         <div class="bg-white dark:bg-inverse-surface rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
             <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
@@ -71,7 +75,10 @@
             
             <div class="space-y-2">
                 <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Alamat Lengkap <span class="text-red-500">*</span></label>
-                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Jl. Sudirman No. 123, RT 01/RW 02, Kec. Melati, Kota Jakarta" required></textarea>
+                <textarea name="address" rows="3" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-surface-dim/30 focus:ring-primary focus:border-primary text-sm p-3" placeholder="Contoh: Jl. Sudirman No. 123, RT 01/RW 02, Kec. Melati, Kota Jakarta" required>{{ old('address') }}</textarea>
+                @error('address')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                @enderror
                 <p class="text-xs text-slate-500 mt-1">Alamat ini akan digunakan untuk keperluan antar-jemput laundry.</p>
             </div>
         </div>
