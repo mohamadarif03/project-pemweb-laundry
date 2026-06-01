@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LogisticsController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,9 +32,9 @@ Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('c
 Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
 Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 
-Route::get('/reports', function () {
-    return view('owner.report.index');
-});
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/export/pdf', [ReportController::class, 'exportPdf'])->name('reports.exportPdf');
+Route::get('/reports/export/excel', [ReportController::class, 'exportExcel'])->name('reports.exportExcel');
 
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
