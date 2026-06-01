@@ -7,6 +7,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LogisticsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,9 +20,9 @@ Route::get('/dashboard', function () {
 Route::get('/orders', [OrderController::class, 'index'])
     ->name('orders.index');
 
-Route::get('/pickup-delivery', function () {
-    return view('owner.logistics.index');
-});
+Route::get('/pickup-delivery', [LogisticsController::class, 'index'])->name('logistics.index');
+Route::patch('/pickup/{id}/status', [LogisticsController::class, 'updatePickupStatus'])->name('pickup.updateStatus');
+Route::patch('/delivery/{id}/status', [LogisticsController::class, 'updateDeliveryStatus'])->name('delivery.updateStatus');
 
 Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
