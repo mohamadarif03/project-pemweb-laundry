@@ -82,7 +82,7 @@
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <a class="text-2xl font-bold text-primary tracking-tight flex items-center gap-2" href="#">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_laundry_service</span>
-                Linen & Lather
+                LaundryKu
             </a>
             <nav class="hidden md:flex gap-8 items-center">
                 <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#services">Services</a>
@@ -90,8 +90,8 @@
                 <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#testimonials">Testimonials</a>
                 <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#faq">FAQ</a>
             </nav>
-            <a href="#pricing" class="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
-                Pesan Sekarang
+            <a href="/login" class="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-primary/30 transition-all active:scale-95">
+                Login / Register
             </a>
         </div>
     </header>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="space-y-8 order-1 md:order-2">
                         <h2 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">Kualitas Profesional untuk Pakaian Kesayangan Anda</h2>
-                        <p class="text-lg text-slate-600 leading-relaxed">Linen & Lather hadir dengan komitmen memberikan perawatan terbaik untuk setiap helai kain Anda. Dengan teknologi pencucian modern dan tenaga ahli yang berpengalaman, kami memastikan hasil yang tidak hanya bersih, tetapi juga menjaga keawetan pakaian.</p>
+                        <p class="text-lg text-slate-600 leading-relaxed">LaundryKu hadir dengan komitmen memberikan perawatan terbaik untuk setiap helai kain Anda. Dengan teknologi pencucian modern dan tenaga ahli yang berpengalaman, kami memastikan hasil yang tidak hanya bersih, tetapi juga menjaga keawetan pakaian.</p>
                         <ul class="space-y-4">
                             <li class="flex items-center gap-4 text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-100">
                                 <span class="material-symbols-outlined text-primary bg-white rounded-full">check_circle</span>
@@ -434,7 +434,7 @@
                     
                     <div class="absolute bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 flex flex-col items-center gap-3">
                         <span class="material-symbols-outlined text-cyan-400 text-4xl">push_pin</span>
-                        <span class="font-semibold text-white">Linen & Lather Workshop</span>
+                        <span class="font-semibold text-white">LaundryKu Workshop</span>
                         <a href="#" class="mt-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors">Buka di Maps &rarr;</a>
                     </div>
                 </div>
@@ -447,9 +447,9 @@
             <div class="flex flex-col items-center md:items-start gap-2">
                 <span class="text-xl font-bold text-white flex items-center gap-2">
                     <span class="material-symbols-outlined text-cyan-400">local_laundry_service</span>
-                    Linen & Lather
+                    LaundryKu
                 </span>
-                <p class="text-sm">© 2024 Linen & Lather. Laundry cepat, bersih, antar jemput.</p>
+                <p class="text-sm">© 2024 & Lather. Laundry cepat, bersih, antar jemput.</p>
             </div>
             <div class="flex flex-wrap justify-center gap-8">
                 <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
